@@ -2,6 +2,7 @@ Agents side
 
 add this line to /var/ossec/etc/ossec.conf
 
+<directories>/etc,/usr/bin,/usr/sbin</directories>
 <directories check_all="yes" whodata="yes">/bin,/sbin,/boot,/opt</directories>
 
 Place this remove-threat.sh script in /var/ossec/active-response/bin/
