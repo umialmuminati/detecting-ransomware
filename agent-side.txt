@@ -1,0 +1,38 @@
+Agents side
+
+add this line to /var/ossec/etc/ossec.conf
+
+<directories check_all="yes" whodata="yes">list of directory</directories>
+
+Place this remove-threat.sh script in /var/ossec/active-response/bin/
+
+#!/bin/bash
+
+# Checking user arguments
+if [ "x$1" == "xdelete" ]; then
+    exit 0;
+fi
+
+LOCAL=`dirname $0`;
+cd $LOCAL
+cd ../
+
+PWD=`pwd`
+
+# Removing file
+rm -f $3
+if [ $? -eq 0 ]; then
+    echo "`date` $0 Removed positive threat located in $3" >> ${PWD}/../logs/active-responses.log
+else
+    echo "`date` $0 Error removing positive threat located in $3" >> ${PWD}/../logs/active-responses.log
+fi
+
+exit 0;
+
+
+Set permissions to the remove-threat.sh
+change ownership to root:ossec /var/ossec/active-response/bin/remove-threat.sh
+chmod +x /var/ossec/active-response/bin/remove-threat.sh
+
+
+Systemctl restart wazuh-agent
